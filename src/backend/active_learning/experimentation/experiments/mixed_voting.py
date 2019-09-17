@@ -1,7 +1,5 @@
-from active_learning.query_by_committee import QueryByCommittee
-from experimentation.configuration.configuration import Configuration
-from experimentation.experiments.experiment import Experiment
-from experimentation.oracle import Oracle
+from src.backend.active_learning.experimentation.experiments.experiment import Experiment
+from src.backend.active_learning.experimentation.oracle import Oracle
 
 
 class MixedVoting(Experiment):
@@ -17,11 +15,6 @@ class MixedVoting(Experiment):
         :return:
         """
         oracle = Oracle(dataset.X_unlabeled, dataset.y_oracle)
-
-        # # SimulatedEstimatedCorrectness support:
-        # if type(strategy) is SimulatedEstimatedCorrectness:
-        #     strategy = SimulatedEstimatedCorrectness(oracle)
-
         committee = Experiment.committee_constructor_dispatch(configuration.training_method)(
             configuration.base_estimator,
             configuration.target_committee_size,

@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.datasets import load_boston, load_breast_cancer, load_diabetes, load_iris, load_linnerud, \
     load_digits, fetch_mldata
 
-from experimentation.dataset.errors import UnknownDatasetError
+from src.backend.active_learning.experimentation.dataset.errors import UnknownDatasetError
 
 
 class Loader:

@@ -1,5 +1,11 @@
 from flask import Flask, request
 
+from src.backend.active_learning.experimentation.dataset.loader import Loader
+from PIL import Image
+import os
+import random
+import string
+
 app = Flask(__name__, static_url_path='/static')
 
 
@@ -8,9 +14,15 @@ def index():
     return 'pasten'
 
 
-@app.route('/image/<id>')
-def image(id):
-    return app.send_static_file('banana.jpg')
+@app.route('/image/<fid>')
+def image(fid):
+    fid = int(fid)
+    data, _ = Loader.load_dataset('mnist')
+    sample = data[fid % len(data)].reshape(8, 8) * 16
+    im = Image.fromarray(sample).resize((256, 256)).convert("L")
+    name = ''.join((random.choice(string.ascii_lowercase) for _ in range(10))) + '.jpg'
+    im.save(os.path.join(app.static_folder, name))
+    return app.send_static_file(name)
 
 
 @app.route('/next')

@@ -2,33 +2,24 @@ import os
 import time
 from abc import abstractmethod
 
-from active_learning.average_kl_divergence import AverageKLDivergence
-from active_learning.qbcd.combinations.vote_and_diversity_entropy import VoteAndDiversityEntropy
-from active_learning.qbcd.diversity_entropy import DiversityEntropy
-from active_learning.qbcd.expected_diversity_reduction import MaximumDiversityReduction
-from active_learning.qbcd.intra_methods.query_by_y_dist import YDistance
-from active_learning.qbcd.intra_methods.y_dist_entropy import YDistEntropy
-from active_learning.qbcd.intra_methods.y_dist_max import YDistMax
-from active_learning.qbcd.intra_methods.y_dist_mean import YDistMean
-from active_learning.qbcd.intra_methods.y_dist_min import YDistMin
-from active_learning.qbcd.intra_methods.y_dist_min_margin import YDistMinMargin
-from active_learning.query_by_committee import QueryByCommittee
-from active_learning.random_sampling import RandomSampling
-from active_learning.vote_entropy import VoteEntropy
-from committee_utils.decorate_committee import CommitteeDecorate
-from committee_utils.diff_clfs_committee import CommitteeDiffClfs
-from committee_utils.split_data_committee import CommitteeSplitData
-from committee_utils.split_features_committee import CommitteeSplitFeatures
-from committee_utils.standard_ensemble_methods import CommitteeBagging, CommitteeAdaBoost
-from experimentation.configuration.configuration import Configuration
-from experimentation.dataset.dataset import DataSet
-from experimentation.dataset.loader import Loader
-from experimentation.exporters.implementations import AccuracyPerClass, Accuracy, Diversity, \
-    MinClassAccuracy, MSE, CommitteeSize, AccuracyPerClassifier, MinimumSpanningTreeDiversity
-from experimentation.logging import Log
-from experimentation.paths import Paths, DirAlreadyExists
-from experimentation.results_management.utils import do_nothing
 import numpy as np
+
+from src.backend.active_learning.active_learning.average_kl_divergence import AverageKLDivergence
+from src.backend.active_learning.active_learning.query_by_committee import QueryByCommittee
+from src.backend.active_learning.active_learning.random_sampling import RandomSampling
+from src.backend.active_learning.active_learning.vote_entropy import VoteEntropy
+from src.backend.active_learning.committee_utils.diff_clfs_committee import CommitteeDiffClfs
+from src.backend.active_learning.committee_utils.split_data_committee import CommitteeSplitData
+from src.backend.active_learning.committee_utils.split_features_committee import CommitteeSplitFeatures
+from src.backend.active_learning.committee_utils.standard_ensemble_methods import CommitteeBagging, CommitteeAdaBoost
+from src.backend.active_learning.experimentation.configuration.configuration import Configuration
+from src.backend.active_learning.experimentation.dataset.dataset import DataSet
+from src.backend.active_learning.experimentation.dataset.loader import Loader
+from src.backend.active_learning.experimentation.exporters.implementations import Accuracy, AccuracyPerClass, \
+    MinClassAccuracy, MSE, CommitteeSize, Diversity, MinimumSpanningTreeDiversity, AccuracyPerClassifier
+from src.backend.active_learning.experimentation.logging import Log
+from src.backend.active_learning.experimentation.paths import Paths, DirAlreadyExists
+from src.backend.active_learning.experimentation.results_management.utils import do_nothing
 
 
 class Experiment:
@@ -60,7 +51,6 @@ class Experiment:
             'split-features': CommitteeSplitFeatures,
             'bagging': CommitteeBagging,
             'adaboost': CommitteeAdaBoost,
-            'decorate': CommitteeDecorate,
             'diff-clfs': CommitteeDiffClfs,
         }.get(training_method, unknown_meta_learner)
         return constructor
@@ -78,42 +68,8 @@ class Experiment:
 
         strategies = [
             RandomSampling(),
-
-            YDistMin(y_dist_type=np.mean),
-            YDistMax(y_dist_type=np.mean),
-            YDistMean(y_dist_type=np.mean),
-            YDistEntropy(y_dist_type=np.mean),
-            YDistMinMargin(y_dist_type=np.mean),
-
-            YDistMin(y_dist_type=np.min),
-            YDistMax(y_dist_type=np.min),
-            YDistMean(y_dist_type=np.min),
-            YDistEntropy(y_dist_type=np.min),
-            YDistMinMargin(y_dist_type=np.min),
-
-            YDistMin(y_dist_type=np.max),
-            YDistMax(y_dist_type=np.max),
-            YDistMean(y_dist_type=np.max),
-            YDistEntropy(y_dist_type=np.max),
-            YDistMinMargin(y_dist_type=np.max),
-
             VoteEntropy(),
-
-            DiversityEntropy(use_mst=False),
-            DiversityEntropy(use_mst=True),
-
-            MaximumDiversityReduction(use_mst=False),
-            MaximumDiversityReduction(use_mst=True),
-
-            VoteAndDiversityEntropy(choose_min_diversity=False),
-            VoteAndDiversityEntropy(choose_min_diversity=True),
-
-            # TBD(use_mst=False, div_merge_type=DivMergeType.WEIGHTED, selection_strategy=SelectionStrategy.MIN),
-            # TBD(use_mst=False, div_merge_type=DivMergeType.WEIGHTED, selection_strategy=SelectionStrategy.MAX),
-
-            # MinimumDiversityReduction(configuration.vote_size),
-            # ByTrainSize(80),
-            # SimulatedEstimatedCorrectness(None)  # placeholder
+            AverageKLDivergence()
         ]
         if config.training_method != 'diff-clfs':
             strategies.append(AverageKLDivergence())
