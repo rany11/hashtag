@@ -24,6 +24,20 @@ def home():
     return render_template('home.html', fid=fid, hint=hint, accuracy=accuracy)
 
 
+@app.route('/hashtag')
+def hashtag():
+    """
+    This function just responds to the browser ULR
+    localhost:5000/
+
+    :return:        the rendered template 'home.html'
+    """
+    fid = requests.get(BACKEND_URL + '/next').content.decode()
+    hint = requests.get(BACKEND_URL + '/hint/' + fid).content.decode()
+    accuracy = requests.get(BACKEND_URL + '/accuracy').content.decode()
+    return render_template('hashtag/index.html', fid=fid, hint=hint, accuracy=accuracy)
+
+
 @app.route('/image/<fid>')
 def image(fid):
     return requests.get(BACKEND_URL + '/image/' + fid).content
