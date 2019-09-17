@@ -10,7 +10,9 @@ URI     : https://colorlib.com
  -->
 
 <head>
-    <title>#Hashtag</title>
+     <link rel="icon" href="{{ url_for('static', filename='images/icon.ico') }}">
+    <!-- link rel="icon" href=C:\Users\Michal\Desktop\Hackaton\hashtag-master\src\frontend\pics\icon.ico" -->
+    <title>Hashtag</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -35,24 +37,27 @@ URI     : https://colorlib.com
 
     <!-- Nav Menu -->
 
-    <div class="nav-menu fixed-top">
+    <div style="position: fixed; background-color: #0c3c60; width: 100%;">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <nav class="navbar navbar-dark navbar-expand-lg">
-                        <div class="navbar-brand">
-                            <strong>#</strong>HASH<strong>tag</strong>
+                        <div>
+                            <img src="{{ url_for('static', filename='images/logo.png') }}" style="width:200px;height:70px;">
                         </div>
                     </nav>
                 </div>
             </div>
         </div>
+        <div style="line-height:7%; background-color: #D9D7EC;"> <br> <br/> <br> <br/> </div>
     </div>
 
 
-    <header class="bg-gradient" id="home">
+
+    <header style="background-image:url({{ url_for('static', filename='images/banner.jpg') }}); background-size: 105%" id="home">
         <div class="img-holder mt-3">
-            <img src="/image/{{ fid }}" alt="picutre" class="img-fluid">
+            <br/>
+            <img src="/image/{{ fid }}" alt="picutre" class="img-fluid" style="border-radius: 8px;">
             <br/>
             <br/>
             <form action="/oracle" method="get">
@@ -63,14 +68,14 @@ URI     : https://colorlib.com
             <br/>
             <div>accuracy: {{ accuracy }}</div>
             <div class="container mt-1">
-                <p class="tagline">Don't worry. The data you are tagging is chosen carefully. We will make sure to get the most out of your hard work.</p>
+
             </div>
         </div>
     </header>
     <!-- // end .section -->
     <footer class="my-5 text-center">
         <!-- Copyright removal is not prohibited! -->
-        <p class="mb-2"><small>COPYRIGHT © 2019. ALL RIGHTS RESERVED.</small></p>
+        <p class="mb-2"><small>HACKATON KAMANIM 2019</small></p>
     </footer>
 
     <!-- jQuery and Bootstrap -->
