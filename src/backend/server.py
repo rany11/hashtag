@@ -23,7 +23,7 @@ def image(fid):
     data, _ = Loader.load_dataset('mnist')
     sample = data[fid % len(data)].reshape(8, 8) * 16
     im = Image.fromarray(sample).resize((256, 256)).convert("L")
-    name = ''.join((random.choice(string.ascii_lowercase) for _ in range(10))) + '.jpg'
+    name = 'tmp' + ''.join((random.choice(string.ascii_lowercase) for _ in range(10))) + '.jpg'
     im.save(os.path.join(app.static_folder, name))
     return app.send_static_file(name)
 
