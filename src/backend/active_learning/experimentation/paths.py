@@ -2,7 +2,7 @@ import os
 from os import makedirs
 from os.path import join
 
-from experimentation.configuration.configuration import Configuration
+from backend.active_learning.experimentation.configuration.configuration import Configuration
 
 
 class DirAlreadyExists(RuntimeError):

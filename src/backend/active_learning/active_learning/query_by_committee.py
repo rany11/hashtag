@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from committee_utils.committee import Committee
+from backend.active_learning.committee_utils.committee import Committee
 
 
 class QueryByCommittee(ABC):

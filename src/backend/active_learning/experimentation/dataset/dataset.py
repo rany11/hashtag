@@ -1,8 +1,8 @@
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-from experimentation.configuration.configuration import Configuration
-from experimentation.dataset.utils import shuffle_dataset, empty_array_from_template
+from backend.active_learning.experimentation.configuration.configuration import Configuration
+from backend.active_learning.experimentation.dataset.utils import shuffle_dataset, empty_array_from_template
 
 
 class DataSet:

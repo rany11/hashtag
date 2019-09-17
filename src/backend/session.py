@@ -42,12 +42,18 @@ class Session:
             raise RuntimeError('out of data')
 
         ids = self.strategy.query_idx(self.committee, self.oracle.X, nb_queries=1)
+        print(ids)
         return ids[0]
 
     def take_label(self, sample_id, label):
         X, y = self.oracle.query_update(np.array([sample_id]))
         if label != y[0]:
             print(f'user gave wrong label {label} (actual: {y[0]})')
-        self.committee.acquire_data(X, [label])
+        self.committee.acquire_data(X, label)
         self.committee.train()
         return
+
+    def predict(self, sample_id):
+        votes = self.committee.vote([self.oracle.X[sample_id]])
+        elements, counts = np.unique(votes, return_counts=True)
+        return elements[np.argmax(counts)]

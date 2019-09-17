@@ -1,8 +1,7 @@
 import numpy as np
 
-from active_learning.qbcd.query_by_committee_diversity import distance_matrix, diversity, kruskal, mst_diversity
-from committee_utils.committee import Committee
-from experimentation.exporters.exporter import Exporter, ExporterKeyError
+from backend.active_learning.committee_utils.committee import Committee
+from backend.active_learning.experimentation.exporters.exporter import Exporter, ExporterKeyError
 
 
 def accuracy(y_predict, y_true):

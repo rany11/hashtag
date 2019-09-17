@@ -1,8 +1,8 @@
 import numpy as np
 from scipy.stats import entropy
 
-from active_learning.query_by_committee import QueryByCommittee
-from committee_utils.committee import Committee
+from backend.active_learning.active_learning.query_by_committee import QueryByCommittee
+from backend.active_learning.committee_utils.committee import Committee
 
 
 class AverageKLDivergence(QueryByCommittee):

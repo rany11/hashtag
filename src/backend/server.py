@@ -6,7 +6,10 @@ import os
 import random
 import string
 
+from src.backend.session import Session
+
 app = Flask(__name__, static_url_path='/static')
+session = Session('mnist')
 
 
 @app.route('/')
@@ -26,8 +29,8 @@ def image(fid):
 
 
 @app.route('/next')
-def next():
-    return '1'
+def next_image():
+    return str(session.next())
 
 
 @app.route('/sanity')
@@ -45,7 +48,14 @@ def oracle():
     sample_id = request.args.get('id', default=NO_ID, type=int)
     label = request.args.get('tag', default=NO_LABEL, type=str)
     print(f'{sample_id} -> {label}')
+    session.take_label(sample_id, label)
     return 'got it'
+
+
+@app.route('/hint/<fid>')
+def hint(fid):
+    session.predict(sample_id=fid)
+    return
 
 
 if __name__ == '__main__':

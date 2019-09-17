@@ -2,7 +2,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 from itertools import product
 
-from experimentation.configuration.configuration import Configuration
+from backend.active_learning.experimentation.configuration.configuration import Configuration
 
 
 @dataclass

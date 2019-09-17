@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 from sklearn.ensemble import BaggingClassifier, AdaBoostClassifier
 
-from committee_utils.committee import Committee
+from backend.active_learning.committee_utils.committee import Committee
 
 
 class StandardEnsembleCommittee(Committee, ABC):

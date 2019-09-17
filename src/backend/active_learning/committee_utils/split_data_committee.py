@@ -1,7 +1,7 @@
 import numpy as np
 
+from backend.active_learning.experimentation.dataset.utils import shuffle_dataset
 from src.backend.active_learning.committee_utils.committee import Committee
-from src.experimentation.dataset.utils import shuffle_dataset
 
 
 class CommitteeSplitData(Committee):
