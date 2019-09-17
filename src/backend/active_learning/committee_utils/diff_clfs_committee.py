@@ -1,6 +1,6 @@
 from sklearn.ensemble import VotingClassifier
 
-from committee_utils.standard_ensemble_methods import StandardEnsembleCommittee
+from src.backend.active_learning.committee_utils.standard_ensemble_methods import StandardEnsembleCommittee
 
 
 class CommitteeDiffClfs(StandardEnsembleCommittee):
