@@ -54,6 +54,7 @@ def oracle():
 
 @app.route('/hint/<fid>')
 def hint(fid):
+    fid = int(fid)
     return str(session.predict(sample_id=fid))
 
 

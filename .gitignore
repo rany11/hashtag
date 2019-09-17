@@ -2,4 +2,4 @@
 __pycache__
 .idea
 venv
-/static/tmp*.jpg
+/src/backend/static/tmp*.jpg

@@ -19,8 +19,8 @@ def home():
     :return:        the rendered template 'home.html'
     """
     fid = requests.get(BACKEND_URL + '/next').content.decode()
-    print(fid)
-    return render_template('home.html', fid=fid)
+    hint = requests.get(BACKEND_URL + '/hint/' + fid).content.decode()
+    return render_template('home.html', fid=fid, hint=hint)
 
 
 @app.route('/image/<fid>')
