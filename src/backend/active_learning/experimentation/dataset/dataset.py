@@ -1,4 +1,5 @@
 import numpy as np
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
 from backend.active_learning.experimentation.configuration.configuration import Configuration
@@ -26,7 +27,10 @@ class DataSet:
             self.X_seed, self.y_seed = DataSet.split_all_labels(self.X_seed, self.y_seed)
         else:
             self.X_all_labels, self.y_all_labels, X, y = DataSet.split_all_labels(X, y)
+            print(seed_size)
+            print(self.nb_labels)
             seed_size -= self.nb_labels  # X_all_labels is included in the seed set
+            print(seed_size)
             if seed_size < 0:
                 raise RuntimeError("seed_size smaller than the number of labels; please choose a larger seed size")
             elif seed_size == 0:
@@ -134,3 +138,36 @@ class DataSet:
 
         summary = '\n'.join(summary)
         return summary
+
+
+if __name__ == '__main__':
+    conf = Configuration(
+        test_size=6,
+        seed_size=3,
+        target_committee_size=3,
+        training_method='bagging',
+        query_measure_points=[],  # dummy
+        datasets=[],  # dummy
+        nb_repeats=0,  # dummy
+        base_estimator=LogisticRegression(multi_class='auto', solver='liblinear'),
+        seed_stratified=True
+    )
+    y = np.concatenate([np.arange(3) for _ in range(5)])
+    x = np.ndarray((3*5, 2))
+    x[:, 0] = y
+    x[:, 1] = np.arange(15)
+
+    print(x)
+    print(y)
+    ds = DataSet(x, y, conf)
+    print(ds.X_unlabeled)
+    print(ds.y_oracle)
+    print('-' * 10)
+    print(ds.X_all_labels)
+    print(ds.y_all_labels)
+    print('-' * 10)
+    print(ds.X_test)
+    print(ds.y_test)
+    print('-' * 10)
+    print(ds.X_seed)
+    print(ds.y_seed)

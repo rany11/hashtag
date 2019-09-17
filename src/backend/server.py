@@ -20,8 +20,7 @@ def index():
 @app.route('/image/<fid>')
 def image(fid):
     fid = int(fid)
-    data, _ = Loader.load_dataset('mnist')
-    sample = data[fid % len(data)].reshape(8, 8) * 16
+    sample = session.oracle.X[fid].reshape(8, 8) * 16
     im = Image.fromarray(sample).resize((256, 256)).convert("L")
     name = 'tmp' + ''.join((random.choice(string.ascii_lowercase) for _ in range(10))) + '.jpg'
     im.save(os.path.join(app.static_folder, name))
@@ -30,13 +29,14 @@ def image(fid):
 
 @app.route('/next')
 def next_image():
-    return str(session.next())
+    next_id = str(session.next_id())
+    print(f'next chosen is {next_id}')
+    return next_id
 
 
-@app.route('/sanity')
+@app.route('/accuracy')
 def sanity():
-    print('becoming insane')
-    return '2'
+    return str(session.estimate_accuracy())
 
 
 NO_LABEL = 'no_label'
@@ -47,7 +47,7 @@ NO_ID = -1
 def oracle():
     sample_id = request.args.get('id', default=NO_ID, type=int)
     label = request.args.get('tag', default=NO_LABEL, type=str)
-    print(f'{sample_id} -> {label}')
+    print(f'{sample_id} tagged as "{label}"')
     session.take_label(sample_id, label)
     return 'got it'
 
@@ -55,7 +55,9 @@ def oracle():
 @app.route('/hint/<fid>')
 def hint(fid):
     fid = int(fid)
-    return str(session.predict(sample_id=fid))
+    prediction = str(int(session.predict(sample_id=fid)))
+    print(f'hint for {fid} is {prediction}')
+    return prediction
 
 
 if __name__ == '__main__':

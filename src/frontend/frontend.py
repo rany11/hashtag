@@ -20,7 +20,8 @@ def home():
     """
     fid = requests.get(BACKEND_URL + '/next').content.decode()
     hint = requests.get(BACKEND_URL + '/hint/' + fid).content.decode()
-    return render_template('home.html', fid=fid, hint=hint)
+    accuracy = requests.get(BACKEND_URL + '/accuracy').content.decode()
+    return render_template('home.html', fid=fid, hint=hint, accuracy=accuracy)
 
 
 @app.route('/image/<fid>')
