@@ -9,7 +9,7 @@ app = Flask(__name__, template_folder='templates', static_url_path='/static')
 
 BACKEND_URL = 'http://127.0.0.1:8080'
 
-# Create a URL route in our application for "/"
+
 @app.route('/')
 def home():
     """
@@ -21,21 +21,7 @@ def home():
     fid = requests.get(BACKEND_URL + '/next').content.decode()
     hint = requests.get(BACKEND_URL + '/hint/' + fid).content.decode()
     accuracy = requests.get(BACKEND_URL + '/accuracy').content.decode()
-    return render_template('home.html', fid=fid, hint=hint, accuracy=accuracy)
-
-
-@app.route('/hashtag')
-def hashtag():
-    """
-    This function just responds to the browser ULR
-    localhost:5000/
-
-    :return:        the rendered template 'home.html'
-    """
-    fid = requests.get(BACKEND_URL + '/next').content.decode()
-    hint = requests.get(BACKEND_URL + '/hint/' + fid).content.decode()
-    accuracy = requests.get(BACKEND_URL + '/accuracy').content.decode()
-    return render_template('hashtag/index.html', fid=fid, hint=hint, accuracy=accuracy)
+    return render_template('index.html', fid=fid, hint=hint, accuracy=accuracy)
 
 
 @app.route('/image/<fid>')
