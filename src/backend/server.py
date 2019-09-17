@@ -9,6 +9,7 @@ import string
 from src.backend.session import Session
 
 app = Flask(__name__, static_url_path='/static')
+os.makedirs(app.static_folder, exist_ok=True)
 session = Session('mnist')
 
 
